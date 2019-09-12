@@ -3,7 +3,6 @@ import { IProduct } from './product';
 import { ProductService } from './product.services';
 
 @Component ({
-    selector: 'pm-products',
     templateUrl: './product-list.component.html',
     styleUrls: ['./product-list.component.css']
 })
@@ -14,7 +13,7 @@ export class ProductListComponent implements OnInit {
     imageMargin: number = 2;
     showImage: boolean = false;
     errorMessage: string;
-    
+
     _listFilter: string;
     get listFilter(): string  {
         return this._listFilter;
@@ -26,6 +25,8 @@ export class ProductListComponent implements OnInit {
     filteredProducts: IProduct[];
     products: IProduct[] = [];
 
+    // Here the service is injected
+    // functionParamtere:ServiceName
     constructor(private productService: ProductService) {
     }
 
@@ -42,8 +43,12 @@ export class ProductListComponent implements OnInit {
     toggleImage(): void {
         this.showImage = !this.showImage;
     }
-
+    // lifecicle hooks
     ngOnInit(): void {
+        // subscribtion to observable
+        // subscribtion has 3 responses - next, error, complete
+        // ....getProducts() - calls the service
+        // .subscribe triggers the http get request
         this.productService.getProducts().subscribe({
             next: products => {
                 this.products = products,
